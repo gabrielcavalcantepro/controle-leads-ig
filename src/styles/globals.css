@@ -1,0 +1,300 @@
+@import 'tailwindcss';
+
+@layer base {
+  :root {
+    /* Cores — seção 2 do design.md */
+    --color-base: #151515;
+    --color-surface: #1b1b1a;
+    --color-surface-raised: #222220;
+    --color-surface-sunken: #101010;
+
+    --color-border: rgba(245, 244, 236, 0.08);
+    --color-border-strong: rgba(245, 244, 236, 0.16);
+
+    --color-text: #f5f4ec;
+    --color-text-muted: rgba(245, 244, 236, 0.62);
+    --color-text-faint: rgba(245, 244, 236, 0.38);
+
+    --color-accent: #fad214;
+    --color-accent-ink: #171502;
+    --color-accent-soft: rgba(250, 210, 20, 0.12);
+    --color-accent-border: rgba(250, 210, 20, 0.35);
+
+    --color-positive: #7be3a8;
+    --color-negative: #ff6f70;
+
+    --color-novo: var(--color-text-faint);
+    --color-em-conversa: #6fb3ff;
+    --color-qualificado: var(--color-accent);
+    --color-agendado: #7be3a8;
+    --color-convertido: #34d399;
+    --color-perdido: var(--color-negative);
+
+    /* Raio — seção 4 */
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+
+    /* Easing — seção 7 */
+    --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+
+    --font-body: 'Poppins', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+      sans-serif;
+    --font-heading: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+    /* Área segura de notch/home-indicator em iOS */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * {
+    box-sizing: border-box;
+    border-color: var(--color-border);
+  }
+
+  html {
+    height: 100%;
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--color-base);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    min-height: 100dvh;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  input,
+  textarea {
+    outline: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ul,
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Scrollbar customizada — seção 8 */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(245, 244, 236, 0.18) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: rgba(245, 244, 236, 0.14);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(245, 244, 236, 0.24);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+
+  /* Remove o fundo de autofill do navegador */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-text);
+    -webkit-box-shadow: 0 0 0px 1000px var(--color-surface-sunken) inset;
+    transition: background-color 9999s ease-in-out 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition:
+      filter 0.15s var(--ease-out-soft),
+      border-color 0.15s var(--ease-out-soft),
+      background-color 0.15s var(--ease-out-soft),
+      color 0.15s var(--ease-out-soft),
+      transform 0.15s var(--ease-out-soft);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn:disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .btn-sm {
+    height: 36px;
+    padding: 0 14px;
+    font-size: 12.5px;
+  }
+  .btn-icon {
+    width: 44px;
+    padding: 0;
+  }
+  .btn-icon.btn-sm {
+    width: 36px;
+  }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    box-shadow: 0 8px 20px -8px rgba(250, 210, 20, 0.55);
+  }
+  .btn-primary:hover {
+    filter: brightness(1.05);
+  }
+  .btn-primary:active {
+    filter: brightness(0.95);
+  }
+
+  .btn-secondary {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-text);
+  }
+  .btn-secondary:hover {
+    border-color: var(--color-accent-border);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-text-muted);
+  }
+  .btn-ghost:hover {
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .btn-danger {
+    background: transparent;
+    border: 1px solid rgba(255, 111, 112, 0.35);
+    color: var(--color-text-muted);
+  }
+  .btn-danger:hover {
+    color: var(--color-negative);
+    border-color: rgba(255, 111, 112, 0.6);
+    background: rgba(255, 111, 112, 0.08);
+  }
+
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .card-raised {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-strong);
+    box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+  }
+
+  .card-sunken {
+    background: var(--color-surface-sunken);
+    border: none;
+  }
+
+  .field-input {
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    transition: border-color 0.15s var(--ease-out-soft);
+  }
+  .field-input:focus-within {
+    border-color: var(--color-accent-border);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 24px;
+    padding: 0 10px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+  }
+}
