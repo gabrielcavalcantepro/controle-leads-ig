@@ -16,12 +16,19 @@ export function Funnel({ totals, rates }: FunnelProps) {
   const stages = [
     { label: 'Contatados', value: totals.contatados, color: 'var(--color-novo)' },
     { label: 'Respostas', value: totals.respostas, color: 'var(--color-em-conversa)' },
-    { label: 'Agendamentos', value: totals.agendamentos, color: 'var(--color-qualificado)' },
-    { label: 'Comparecimentos', value: totals.comparecimentos, color: 'var(--color-agendado)' },
+    { label: 'Qualificados', value: totals.qualificados, color: 'var(--color-qualificado)' },
+    { label: 'Agendamentos', value: totals.agendamentos, color: 'var(--color-agendado)' },
+    { label: 'Comparecimentos', value: totals.comparecimentos, color: 'var(--color-comparecido)' },
     { label: 'Conversões', value: totals.conversoes, color: 'var(--color-convertido)' },
   ];
 
-  const transitions = [rates.taxaResposta, rates.taxaAgendamento, rates.taxaComparecimento, rates.taxaConversao];
+  const transitions = [
+    rates.taxaResposta,
+    rates.taxaQualificacao,
+    rates.taxaAgendamento,
+    rates.taxaComparecimento,
+    rates.taxaConversao,
+  ];
 
   if (totals.contatados === 0) {
     return (

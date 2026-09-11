@@ -15,6 +15,7 @@ import { useEntries } from '../store/EntriesProvider';
 const FIELDS: { key: keyof DayTotals; label: string }[] = [
   { key: 'contatados', label: 'Leads contatados' },
   { key: 'respostas', label: 'Respostas recebidas' },
+  { key: 'qualificados', label: 'Leads qualificados' },
   { key: 'agendamentos', label: 'Agendamentos' },
   { key: 'comparecimentos', label: 'Comparecimentos' },
   { key: 'conversoes', label: 'Conversões' },
@@ -22,7 +23,8 @@ const FIELDS: { key: keyof DayTotals; label: string }[] = [
 
 const WARNING_FIELD: Record<string, keyof DayTotals> = {
   'Respostas maior que contatados.': 'respostas',
-  'Agendamentos maior que respostas.': 'agendamentos',
+  'Qualificados maior que respostas.': 'qualificados',
+  'Agendamentos maior que qualificados.': 'agendamentos',
   'Comparecimentos maior que agendamentos.': 'comparecimentos',
   'Conversões maior que comparecimentos.': 'conversoes',
 };
@@ -30,6 +32,7 @@ const WARNING_FIELD: Record<string, keyof DayTotals> = {
 const EMPTY: DayTotals = {
   contatados: 0,
   respostas: 0,
+  qualificados: 0,
   agendamentos: 0,
   comparecimentos: 0,
   conversoes: 0,
@@ -123,10 +126,11 @@ export function PreencherScreen({ date, onDateChange: setDate }: PreencherScreen
             <Card>
               <CardHeader title="Prévia das taxas deste dia" />
               <CardContent>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-4 gap-2.5">
                   <RatePreview label="Resposta" value={rates.taxaResposta} />
-                  <RatePreview label="Agendamento" value={rates.taxaAgendamento} />
-                  <RatePreview label="Comparecimento" value={rates.taxaComparecimento} />
+                  <RatePreview label="Qualific." value={rates.taxaQualificacao} />
+                  <RatePreview label="Agendam." value={rates.taxaAgendamento} />
+                  <RatePreview label="Comparec." value={rates.taxaComparecimento} />
                   <RatePreview label="No-show" value={rates.taxaNoShow} />
                   <RatePreview label="Conversão" value={rates.taxaConversao} />
                   <RatePreview label="Conv. geral" value={rates.taxaConversaoGeral} />

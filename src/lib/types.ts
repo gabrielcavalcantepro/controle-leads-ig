@@ -2,6 +2,7 @@ export interface DayEntry {
   data: string; // YYYY-MM-DD
   contatados: number;
   respostas: number;
+  qualificados: number;
   agendamentos: number;
   comparecimentos: number;
   conversoes: number;
@@ -10,11 +11,12 @@ export interface DayEntry {
 
 export type DayTotals = Pick<
   DayEntry,
-  'contatados' | 'respostas' | 'agendamentos' | 'comparecimentos' | 'conversoes'
+  'contatados' | 'respostas' | 'qualificados' | 'agendamentos' | 'comparecimentos' | 'conversoes'
 >;
 
 export interface Rates {
   taxaResposta: number | null;
+  taxaQualificacao: number | null;
   taxaAgendamento: number | null;
   taxaComparecimento: number | null;
   taxaNoShow: number | null;

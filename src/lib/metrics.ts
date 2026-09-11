@@ -11,21 +11,27 @@ export function sumTotals(entries: DayTotals[]): DayTotals {
     (acc, e) => ({
       contatados: acc.contatados + e.contatados,
       respostas: acc.respostas + e.respostas,
+      qualificados: acc.qualificados + e.qualificados,
       agendamentos: acc.agendamentos + e.agendamentos,
       comparecimentos: acc.comparecimentos + e.comparecimentos,
       conversoes: acc.conversoes + e.conversoes,
     }),
-    { contatados: 0, respostas: 0, agendamentos: 0, comparecimentos: 0, conversoes: 0 },
+    { contatados: 0, respostas: 0, qualificados: 0, agendamentos: 0, comparecimentos: 0, conversoes: 0 },
   );
 }
 
 /**
  * Rates are always computed from summed totals, never averaged day-by-day —
  * averaging daily rates would let a low-volume day distort the period metric.
+ *
+ * Funil: Contatados → Respostas → Qualificados → Agendamentos → Comparecimentos → Conversões.
+ * taxaAgendamento mede agendamentos sobre QUALIFICADOS (não respostas) — só lead
+ * qualificado deveria virar agendamento.
  */
 export function computeRates(totals: DayTotals): Rates {
   const taxaResposta = safeDiv(totals.respostas, totals.contatados);
-  const taxaAgendamento = safeDiv(totals.agendamentos, totals.respostas);
+  const taxaQualificacao = safeDiv(totals.qualificados, totals.respostas);
+  const taxaAgendamento = safeDiv(totals.agendamentos, totals.qualificados);
   const taxaComparecimento = safeDiv(totals.comparecimentos, totals.agendamentos);
   const taxaNoShow = taxaComparecimento === null ? null : 1 - taxaComparecimento;
   const taxaConversao = safeDiv(totals.conversoes, totals.comparecimentos);
@@ -33,6 +39,7 @@ export function computeRates(totals: DayTotals): Rates {
 
   return {
     taxaResposta,
+    taxaQualificacao,
     taxaAgendamento,
     taxaComparecimento,
     taxaNoShow,
@@ -65,8 +72,11 @@ export function validateEntry(entry: DayTotals): string[] {
   if (entry.respostas > entry.contatados) {
     warnings.push('Respostas maior que contatados.');
   }
-  if (entry.agendamentos > entry.respostas) {
-    warnings.push('Agendamentos maior que respostas.');
+  if (entry.qualificados > entry.respostas) {
+    warnings.push('Qualificados maior que respostas.');
+  }
+  if (entry.agendamentos > entry.qualificados) {
+    warnings.push('Agendamentos maior que qualificados.');
   }
   if (entry.comparecimentos > entry.agendamentos) {
     warnings.push('Comparecimentos maior que agendamentos.');
@@ -82,6 +92,7 @@ export function emptyEntry(data: string): DayEntry {
     data,
     contatados: 0,
     respostas: 0,
+    qualificados: 0,
     agendamentos: 0,
     comparecimentos: 0,
     conversoes: 0,

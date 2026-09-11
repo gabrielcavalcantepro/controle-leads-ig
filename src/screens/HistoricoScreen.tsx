@@ -131,6 +131,7 @@ export function HistoricoScreen({ onEditDate }: HistoricoScreenProps) {
                   >
                     <span>{formatInt(entry.contatados)} contatados</span>
                     <span>{formatInt(entry.respostas)} resp.</span>
+                    <span>{formatInt(entry.qualificados)} qualif.</span>
                     <span>{formatInt(entry.agendamentos)} agend.</span>
                     <span>{formatInt(entry.comparecimentos)} comp.</span>
                     <span>{formatInt(entry.conversoes)} conv.</span>

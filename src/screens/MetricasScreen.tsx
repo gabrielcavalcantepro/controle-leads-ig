@@ -121,8 +121,9 @@ export function MetricasScreen() {
         />
       </div>
 
-      <div className="mt-2.5 grid grid-cols-4 gap-2.5">
+      <div className="mt-2.5 grid grid-cols-3 gap-2.5">
         <StatBlock label="Resposta" value={formatPct(rates.taxaResposta)} />
+        <StatBlock label="Qualific." value={formatPct(rates.taxaQualificacao)} />
         <StatBlock label="Agendam." value={formatPct(rates.taxaAgendamento)} />
         <StatBlock label="Compar." value={formatPct(rates.taxaComparecimento)} />
         <StatBlock label="Conversão" value={formatPct(rates.taxaConversao)} />

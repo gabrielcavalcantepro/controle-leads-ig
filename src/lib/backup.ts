@@ -31,6 +31,7 @@ export function exportCSV(entries: DayEntry[]): void {
     'Data',
     'Leads contatados',
     'Respostas recebidas',
+    'Leads qualificados',
     'Agendamentos',
     'Comparecimentos',
     'Conversões',
@@ -41,6 +42,7 @@ export function exportCSV(entries: DayEntry[]): void {
       formatBR(e.data),
       e.contatados,
       e.respostas,
+      e.qualificados,
       e.agendamentos,
       e.comparecimentos,
       e.conversoes,
@@ -49,6 +51,8 @@ export function exportCSV(entries: DayEntry[]): void {
   download(`leads-ig-${todayISO()}.csv`, `﻿${csv}`, 'text/csv;charset=utf-8');
 }
 
+// "qualificados" não é exigido aqui: backups exportados antes desse campo
+// existir continuam importáveis (ver default abaixo).
 function isValidEntry(value: unknown): value is DayEntry {
   if (!value || typeof value !== 'object') return false;
   const e = value as Record<string, unknown>;
@@ -79,6 +83,7 @@ export async function parseImportFile(file: File): Promise<DayEntry[]> {
 
   return valid.map((e) => ({
     ...e,
+    qualificados: typeof e.qualificados === 'number' ? e.qualificados : 0,
     atualizadoEm: e.atualizadoEm ?? new Date().toISOString(),
   }));
 }
